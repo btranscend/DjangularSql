@@ -1,0 +1,7 @@
+dj-database-url==@latest
+Django==@latest
+gunicorn==@latest
+postgres==@latest
+psycopg2==@latest
+pytz==@latest
+whitenoise==@latest

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -57,9 +57,14 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'localhost:4200',
-)
+CORS_ORIGIN_WHITELIST = ['http://localhost:4200',
+'http://localhost:8000',
+'http://localhost:8080',
+]
+# (
+
+    # 'localhost:8000'
+# )
 
 ROOT_URLCONF = 'gkzRestApi.urls'
 
@@ -86,24 +91,41 @@ WSGI_APPLICATION = 'gkzRestApi.wsgi.application'
 
 DATABASES = {
    'default': {
+# sqlite3
+    # 'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
    # pymysql
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'testdb',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # # 'ENGINE': 'mysql_cymysql',
+        # 'NAME': 'mydb',
+        # 'USER': 'root',
+        # 'PASSWORD': 'Phili467',
+        # 'HOST': 'localhost',
+        # 'PORT': '3306',
 
-
+# psql "dbname=postgres host=localhost user=postgres password=Phili467 port=5432 sslmode=require"
 # mssql
         # 'NAME': 'model',
-        # # 'ENGINE': 'sqlserver_ado',
+        # 'ENGINE': 'sqlserver_ado',
         # # 'HOST': 'DESKTOP-NSHCQFO\\SQLEXPRESS',
-        # 'HOST': '127.0.0.1',
+        # 'HOST': 'localhost',
         # 'USER': 'DESKTOP-NSHCQFO\\Brian Tran',
         # 'PASSWORD': '',
+
+# postgres
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DB_NAME', 'postgres'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASS', 'Phili467'),
+        'HOST': 'localhost',
+        'PORT': '5432',
+
     }
 }
+# for dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
